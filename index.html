@@ -404,6 +404,13 @@
       background: rgba(217, 173, 91, .08);
     }
 
+    .product-price {
+      color: var(--gold-soft);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
     .order-shell {
       display: grid;
       grid-template-columns: minmax(280px, .9fr) minmax(320px, 1.1fr);
@@ -927,6 +934,7 @@
             <div class="product-body">
               <h3>BYA New collection Black</h3>
               <p>Черная футболка с золотым гербом BYAcademy спереди и крупным принтом на спине.</p>
+              <div class="product-price">3500 р</div>
               <div class="meta"><span>S</span><span>M</span><span>L</span></div>
               <button class="btn secondary choose-product" type="button">Выбрать модель</button>
             </div>
@@ -940,6 +948,7 @@
             <div class="product-body">
               <h3>BYA New collection White</h3>
               <p>Белый oversize-силуэт с вертикальным BYA academy-принтом на груди.</p>
+              <div class="product-price">3500 р</div>
               <div class="meta"><span>S</span><span>M</span><span>L</span></div>
               <button class="btn secondary choose-product" type="button">Выбрать модель</button>
             </div>
@@ -953,6 +962,7 @@
             <div class="product-body">
               <h3>BYA Classic White</h3>
               <p>Белая oversize-футболка с вертикальным BYA academy-принтом и чистой классической подачей.</p>
+              <div class="product-price">3500 р</div>
               <div class="meta"><span>S</span><span>M</span><span>L</span></div>
               <button class="btn secondary choose-product" type="button">Выбрать модель</button>
             </div>
@@ -966,6 +976,7 @@
             <div class="product-body">
               <h3>BYA Classic Black</h3>
               <p>Черная oversize-футболка с вертикальным BYA academy-принтом в чистой монохромной версии.</p>
+              <div class="product-price">3500 р</div>
               <div class="meta"><span>S</span><span>M</span><span>L</span></div>
               <button class="btn secondary choose-product" type="button">Выбрать модель</button>
             </div>
@@ -1089,6 +1100,7 @@
     const telegramQuestion = 'Привет, я хочу поинтересоваться по поводу футболок BYA';
     const orderGreeting = 'Привет Яна, я на счет футболок BYA';
     const orderInstruction = 'Скопируйте этот текст и отправьте менеджеру в Telegram, для этого нажмите кнопку "Написать в Telegram"';
+    const productPrice = 3500;
     const buildTelegramUrl = (message) => `${telegramBaseUrl}?text=${encodeURIComponent(message)}`;
 
     telegramLink.href = buildTelegramUrl(telegramQuestion);
@@ -1237,6 +1249,8 @@
       const data = new FormData(orderForm);
       const product = data.get('product');
       const size = data.get('size');
+      const quantity = Number(data.get('quantity')) || 1;
+      const total = productPrice * quantity;
 
       const text = [
         orderGreeting,
@@ -1244,7 +1258,9 @@
         'Заявка на футболку BYAcademy',
         `Модель: ${product}`,
         `Размер: ${size}`,
-        `Количество: ${data.get('quantity')}`,
+        `Количество: ${quantity}`,
+        `Цена: ${productPrice} р`,
+        `Сумма: ${total} р`,
         `Имя: ${data.get('name')}`,
         `Контакт: ${data.get('contact')}`,
         `Комментарий: ${data.get('comment') || '-'}`
